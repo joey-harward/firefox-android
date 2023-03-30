@@ -388,7 +388,12 @@ class DefaultBrowserToolbarMenuController(
                         .show()
                 }
             }
-        }
+			is ToolbarMenu.Item.Summarize -> {
+				navController.navigate(
+					BrowserFragmentDirections.actionGlobalSummarizeDialogFragment(),
+				)
+			}
+		}
     }
 
     private fun getProperUrl(currentSession: SessionState?): String? {
@@ -459,6 +464,8 @@ class DefaultBrowserToolbarMenuController(
                 Events.browserMenuAction.record(Events.BrowserMenuActionExtra("set_default_browser"))
             is ToolbarMenu.Item.RemoveFromTopSites ->
                 Events.browserMenuAction.record(Events.BrowserMenuActionExtra("remove_from_top_sites"))
+			is ToolbarMenu.Item.Summarize ->
+				Events.browserMenuAction.record(Events.BrowserMenuActionExtra("summarize"))
         }
     }
 

@@ -350,6 +350,14 @@ open class DefaultToolbarMenu(
         onItemTapped.invoke(ToolbarMenu.Item.Quit)
     }
 
+	private val summarizeItem = BrowserMenuImageText(
+		label = context.getString(R.string.browser_menu_summarize),
+		imageResource = R.drawable.ic_readermode,
+		iconTintColorResource = primaryTextColor(),
+	) {
+		onItemTapped.invoke(ToolbarMenu.Item.Summarize)
+	}
+
     private fun syncMenuItem(): BrowserMenuItem {
         return BrowserMenuSignIn(primaryTextColor()) {
             onItemTapped.invoke(
@@ -372,6 +380,7 @@ open class DefaultToolbarMenu(
                 syncMenuItem(),
                 BrowserMenuDivider(),
                 findInPageItem,
+				summarizeItem,
                 desktopSiteItem,
                 customizeReaderView.apply { visible = ::shouldShowReaderViewCustomization },
                 openInApp.apply { visible = ::shouldShowOpenInApp },

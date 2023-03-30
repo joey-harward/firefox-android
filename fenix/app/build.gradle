@@ -610,6 +610,11 @@ dependencies {
     implementation FenixDependencies.google_play_review
     implementation FenixDependencies.google_play_review_ktx
 
+    // OpenAI
+    implementation platform('com.aallam.openai:openai-client-bom:3.2.0')
+    implementation 'com.aallam.openai:openai-client'
+    implementation 'io.ktor:ktor-client-okhttp'
+
     implementation FenixDependencies.androidx_profileinstaller
 
     androidTestImplementation FenixDependencies.uiautomator

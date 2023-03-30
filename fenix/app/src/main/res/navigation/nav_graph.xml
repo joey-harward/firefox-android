@@ -160,6 +160,9 @@
     <action
         android:id="@+id/action_global_tabSettingsFragment"
         app:destination="@id/tabsSettingsFragment" />
+    <action
+        android:id="@+id/action_global_summarizeDialogFragment"
+        app:destination="@id/summarizeDialogFragment" />
 
     <dialog
         android:id="@+id/tabsTrayFragment"
@@ -1139,6 +1142,10 @@
             app:argType="string"
             app:nullable="true" />
     </dialog>
+    <dialog
+        android:id="@+id/summarizeDialogFragment"
+        android:name="org.mozilla.fenix.summarize.SummarizeDialogFragment"
+        tools:layout="@layout/fragment_summarize_dialog"/>
 
     <navigation
         android:id="@+id/site_permissions_exceptions_graph"
