@@ -24,6 +24,9 @@ apply from: 'benchmark.gradle'
 android {
     compileSdkVersion Config.compileSdkVersion
 
+    def localProperties = new Properties()
+    localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
+
     project.maybeConfigForJetpackBenchmark(it)
     if (project.hasProperty("testBuildType")) {
         // Allowing to configure the test build type via command line flag (./gradlew -PtestBuildType=beta ..)
@@ -74,6 +77,9 @@ android {
         } else {
             buildConfigField "boolean", "MOZILLA_ONLINE", "false"
         }
+
+        def openaiToken = localProperties.getProperty("openai.token")
+        buildConfigField "String", "OPENAI_TOKEN", "\"$openaiToken\""
     }
 
     def releaseTemplate = {

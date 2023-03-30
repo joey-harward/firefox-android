@@ -21,12 +21,13 @@ import mozilla.components.browser.state.selector.selectedTab
 import mozilla.components.lib.state.ext.flowScoped
 import mozilla.components.support.ktx.android.content.getColorFromAttr
 import mozilla.components.support.ktx.kotlinx.coroutines.flow.ifChanged
+import org.mozilla.fenix.BuildConfig
 import org.mozilla.fenix.R
 import org.mozilla.fenix.databinding.FragmentSummarizeDialogBinding
 import org.mozilla.fenix.ext.requireComponents
 
 class SummarizeDialogFragment : BottomSheetDialogFragment() {
-	private val openAI = OpenAI("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")
+	private val openAI = OpenAI(BuildConfig.OPENAI_TOKEN)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,7 +57,7 @@ class SummarizeDialogFragment : BottomSheetDialogFragment() {
     }
 
 	@OptIn(BetaOpenAI::class)
-	suspend fun summarizeUrl(url: String): String? {
+	suspend fun summarizeUrl(url: String): String {
 		val chatCompletionRequest = ChatCompletionRequest(
 			model = ModelId("gpt-3.5-turbo"),
 			messages = listOf(
@@ -66,8 +67,14 @@ class SummarizeDialogFragment : BottomSheetDialogFragment() {
 				)
 			)
 		)
-		val completion: ChatCompletion = openAI.chatCompletion(chatCompletionRequest)
-		return completion.choices[0].message?.content
+
+		val summary = try {
+			val completion: ChatCompletion = openAI.chatCompletion(chatCompletionRequest)
+			completion.choices[0].message?.content.orEmpty()
+		} catch (e: Exception) {
+			"Error:\n${e.message}"
+		}
+		return summary
 	}
 
     companion object {
